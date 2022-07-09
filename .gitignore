@@ -1,5 +1,6 @@
 tmp*
 *.dSYM
+a.out
 
 philo
 obj
