@@ -1,11 +1,15 @@
 NAME = philo
 
-SRCS = $(wildcard *.c)
-
-HEADER = philo.h
+OBJ_DIR += ./
+SRCS += $(wildcard *.c)
+OBJ_DIR += util/
+SRCS += $(wildcard util/*.c)
 
 OBJS = $(SRCS:%.c=obj/%.o)
-OBJ_DIR = obj/.keep
+OBJ_DIR := $(addprefix obj/, $(OBJ_DIR))
+OBJ_DIR := $(addsuffix .keep, $(OBJ_DIR))
+
+HEADER = philo.h
 
 CFLAGS = -g
 
