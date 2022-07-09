@@ -1,6 +1,7 @@
 tmp*
 *.dSYM
 a.out
+.vscode
 
 philo
 obj
