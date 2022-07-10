@@ -42,6 +42,7 @@ int main(int argc, char **argv) {
         perror("malloc");
         return 1;
     }
+
     // create threads
     i = 0;
     while (i < philo_num) {
