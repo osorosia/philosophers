@@ -22,24 +22,43 @@ bool check_arg(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
+    long i;
+
     if (!check_arg(argc, argv))
         return usage();
 
     // get params
-    long num = ft_atol(argv[1]);
-    long die = ft_atol(argv[2]);
-    long eat = ft_atol(argv[3]);
-    long sleep = ft_atol(argv[4]);
+    long philo_num = ft_atol(argv[1]);
+    long die_time = ft_atol(argv[2]);
+    long eat_time = ft_atol(argv[3]);
+    long sleep_time = ft_atol(argv[4]);
     long times = -1;
     if (argc == 6)
         times = ft_atol(argv[5]);
 
     // init threads
-    pthread_t *th = malloc(sizeof(pthread_t) * num);
+    pthread_t *th = malloc(sizeof(pthread_t) * philo_num);
     if (th == NULL) {
         perror("malloc");
         return 1;
     }
-    
     // create threads
+    i = 0;
+    while (i < philo_num) {
+        printf("create\n");
+        int ret = pthread_create(&th[i], NULL, start_routine, NULL);
+        if (ret != 0) {
+            perror("pthread_create");
+            return 1;
+        }
+        usleep(10000);
+        i++;
+    }
+
+    // join threads
+    i = 0;
+    while (i < philo_num) {
+        pthread_join(th[i], NULL);
+        i++;
+    }
 }

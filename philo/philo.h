@@ -15,6 +15,9 @@ void print_sleep(long ts, long num);
 void print_think(long ts, long num);
 void print_died(long ts, long num);
 
+// routine.c
+void *start_routine(void *arg);
+
 //
 // util
 //
