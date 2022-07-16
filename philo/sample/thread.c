@@ -1,4 +1,4 @@
-#include "../philo.h"
+#include "../src/philo.h"
 
 int g = 0;
 
