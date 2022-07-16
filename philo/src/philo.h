@@ -8,6 +8,14 @@
 #include <unistd.h>
 #include <pthread.h>
 
+typedef struct s_philo {
+    long num;
+    long die;
+    long eat;
+    long sleep;
+    long times;
+} t_philo;
+
 // print.c
 void print_fork(long ts, long num);
 void print_eat(long ts, long num);

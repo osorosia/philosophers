@@ -2,6 +2,6 @@ tmp*
 *.dSYM
 a.out
 .vscode
+obj
 
 philo
-obj

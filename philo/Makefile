@@ -1,35 +1,33 @@
 NAME = philo
 
-OBJ_DIR += ./
-SRCS += $(wildcard *.c)
-OBJ_DIR += util/
-SRCS += $(wildcard util/*.c)
+SRC = $(wildcard src/*.c) $(wildcard src/*/*.c)
+OBJ = $(SRC:src/%.c=obj/%.o)
+DEP = $(SRC:src/%.c=obj/%.d)
 
-OBJS = $(SRCS:%.c=obj/%.o)
-OBJ_DIR := $(addprefix obj/, $(OBJ_DIR))
+OBJ_DIR = $(sort $(dir $(OBJ)))
 OBJ_DIR := $(addsuffix .keep, $(OBJ_DIR))
 
-HEADER = philo.h
-
 CFLAGS = -g
+DEPFLAGS = -MMD -MP
 
+$(NAME): $(OBJ)
+	cc $(CFLAGS) -o $@ $(OBJ)
 
-$(NAME): $(OBJS)
-	cc $(CFLAGS) -o $@ $(OBJS)
-
-obj/%.o: %.c $(OBJ_DIR) $(HEADER)
-	cc $(CFLAGS) -o $@ -c $<
+obj/%.o: src/%.c $(OBJ_DIR)
+	cc $(CFLAGS) $(DEPFLAGS) -o $@ -c $<
 
 $(OBJ_DIR):
 	mkdir -p $(@D)
 	touch $@
 
+-include $(DEP)
+
 all: $(NAME)
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJ)
 
-fclean: clean
+fclean: clean $(HEADER)
 	rm -f $(NAME)
 
 re: fclean all

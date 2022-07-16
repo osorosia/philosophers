@@ -62,4 +62,5 @@ int main(int argc, char **argv) {
         pthread_join(th[i], NULL);
         i++;
     }
+    printf("end\n");
 }
