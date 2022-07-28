@@ -2,26 +2,58 @@
 #define PHILO_H
 
 #include <limits.h>
+#include <pthread.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+#include <string.h>
+#include <sys/time.h>
 #include <unistd.h>
-#include <pthread.h>
 
-typedef struct s_philo {
-    long num;
+#ifndef DEBUG
+#define DEBUG 0
+#endif
+
+typedef enum e_action_kind {
+    EAT,
+    SLEEP,
+    THINK,
+} t_action_kind;
+
+typedef struct s_rule {
+    long philo_num;
     long die;
     long eat;
     long sleep;
     long times;
+} t_rule;
+
+typedef struct s_philo {
+    t_action_kind next_act_kind;
 } t_philo;
 
+typedef struct s_table {
+    long id;
+    t_philo **philos;
+    pthread_mutex_t *forks;
+    t_rule *rule;
+
+    bool finish;
+    // for debug
+    long start_timestamp;
+} t_table;
+
+// action.c
+void action_eat(t_table *table, long id);
+void action_sleep(t_table *table, long id);
+void action_think(t_table *table, long id);
+
 // print.c
-void print_fork(long ts, long num);
-void print_eat(long ts, long num);
-void print_sleep(long ts, long num);
-void print_think(long ts, long num);
-void print_died(long ts, long num);
+void print_fork(t_table *table, long id);
+void print_eat(t_table *table, long id);
+void print_sleep(t_table *table, long id);
+void print_think(t_table *table, long id);
+void print_died(t_table *table, long id);
 
 // routine.c
 void *start_routine(void *arg);
@@ -29,8 +61,10 @@ void *start_routine(void *arg);
 //
 // util
 //
+void error(char *str);
 long ft_atol(char *str);
 bool ft_isdigit(char c);
+long get_timestamp();
 bool is_num(char *str);
 
 #endif

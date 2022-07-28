@@ -1,13 +1,19 @@
 #include "philo.h"
 
 void *start_routine(void *arg) {
-    long i;
+    t_table *table = (t_table *)arg;
+    long id = table->id;
 
-    i = 0;
-    while (i < 10) {
-        printf("%ld\n", i);
-        i++;
+    while (true) {
+        if (table->philos[id]->next_act_kind == EAT) {
+            action_eat(table, id);
+        } else if (table->philos[id]->next_act_kind == SLEEP) {
+            action_sleep(table, id);
+        } else if (table->philos[id]->next_act_kind == THINK) {
+            action_think(table, id);
+        }
         sleep(1);
     }
+
     return NULL;
 }

@@ -10,11 +10,15 @@ OBJ_DIR := $(addsuffix .keep, $(OBJ_DIR))
 CFLAGS = -g
 DEPFLAGS = -MMD -MP
 
+ifeq ($(MAKECMDGOALS), debug)
+	DEBUG = -D DEBUG
+endif
+
 $(NAME): $(OBJ)
-	cc $(CFLAGS) -o $@ $(OBJ)
+	cc $(CFLAGS) $(DEBUG) -o $@ $(OBJ)
 
 obj/%.o: src/%.c $(OBJ_DIR)
-	cc $(CFLAGS) $(DEPFLAGS) -o $@ -c $<
+	cc $(CFLAGS) $(DEPFLAGS) $(DEBUG) -o $@ -c $<
 
 $(OBJ_DIR):
 	mkdir -p $(@D)
@@ -31,5 +35,8 @@ fclean: clean $(HEADER)
 	rm -f $(NAME)
 
 re: fclean all
+
+debug:
+	echo $(DEBUG)
 
 .PHONY: all clean fclean re
