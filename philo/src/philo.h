@@ -30,6 +30,7 @@ typedef struct s_rule {
 
 typedef struct s_philo {
     t_action_kind next_act_kind;
+    long prev_eat_time;
 } t_philo;
 
 typedef struct s_table {
@@ -64,7 +65,7 @@ void *start_routine(void *arg);
 void error(char *str);
 long ft_atol(char *str);
 bool ft_isdigit(char c);
-long get_timestamp();
+struct timeval get_timestamp();
 bool is_num(char *str);
 
 #endif

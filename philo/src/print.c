@@ -10,6 +10,7 @@ void print_eat(t_table *table, long id) {
     long timestamp = get_timestamp();
 
     printf("%ld %ld is eating\n", timestamp, id + 1);
+    table->philos[id]->prev_eat_time = timestamp;
 }
 
 void print_sleep(t_table *table, long id) {
