@@ -9,6 +9,7 @@ t_action_kind next_act(t_action_kind kind) {
 }
 
 void action_eat(t_table *table, long id) {
+    // print
     print_eat(table, id);
     // next action
     table->philos[id]->next_act_kind =
@@ -16,6 +17,7 @@ void action_eat(t_table *table, long id) {
 }
 
 void action_sleep(t_table *table, long id) {
+    // print
     print_sleep(table, id);
     // next action
     table->philos[id]->next_act_kind =
@@ -23,6 +25,7 @@ void action_sleep(t_table *table, long id) {
 }
 
 void action_think(t_table *table, long id) {
+    // print
     print_think(table, id);
     // next action
     table->philos[id]->next_act_kind =
