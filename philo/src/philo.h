@@ -59,6 +59,11 @@ void print_died(t_table *table, long id);
 // routine.c
 void *start_routine(void *arg);
 
+// 
+// philo
+// 
+void philo_set_next_act(t_philo *philo);
+
 //
 // util
 //
