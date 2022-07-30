@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
         int ret = pthread_create(&th[i], NULL, start_routine, &table);
         if (ret != 0)
             error("pthread_create");
-        usleep(5000);
+        usleep(1000);
         i++;
     }
 

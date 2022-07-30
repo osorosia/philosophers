@@ -14,6 +14,6 @@ void *start_routine(void *arg) {
         }
         sleep(1);
     }
-
+    
     return NULL;
 }

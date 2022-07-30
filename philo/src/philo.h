@@ -18,6 +18,8 @@ typedef enum e_action_kind {
     EAT,
     SLEEP,
     THINK,
+    GET_FORK,
+    DIED,
 } t_action_kind;
 
 typedef struct s_rule {
@@ -31,6 +33,7 @@ typedef struct s_rule {
 typedef struct s_philo {
     t_action_kind next_act_kind;
     long prev_eat_time;
+    long prev_act_time;
 } t_philo;
 
 typedef struct s_table {
@@ -50,11 +53,7 @@ void action_sleep(t_table *table, long id);
 void action_think(t_table *table, long id);
 
 // print.c
-void print_fork(t_table *table, long id);
-void print_eat(t_table *table, long id);
-void print_sleep(t_table *table, long id);
-void print_think(t_table *table, long id);
-void print_died(t_table *table, long id);
+void print_act(t_table *table, long id, t_action_kind act_kind);
 
 // routine.c
 void *start_routine(void *arg);
