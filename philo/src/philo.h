@@ -65,7 +65,7 @@ void *start_routine(void *arg);
 void error(char *str);
 long ft_atol(char *str);
 bool ft_isdigit(char c);
-struct timeval get_timestamp();
+long get_timestamp();
 bool is_num(char *str);
 
 #endif
