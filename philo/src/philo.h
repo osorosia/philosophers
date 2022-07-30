@@ -32,6 +32,7 @@ typedef struct s_rule {
 
 typedef struct s_philo {
     t_action_kind next_act_kind;
+    long start_time;
     long prev_eat_time;
     long prev_act_time;
 } t_philo;
@@ -44,7 +45,6 @@ typedef struct s_table {
 
     bool finish;
     // for debug
-    long start_timestamp;
 } t_table;
 
 // action.c

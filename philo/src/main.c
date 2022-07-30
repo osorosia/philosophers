@@ -75,7 +75,6 @@ int main(int argc, char **argv) {
     // create threads
     i = 0;
     while (i < rule.philo_num) {
-        printf("create\n");
         table.id = i;
         int ret = pthread_create(&th[i], NULL, start_routine, &table);
         if (ret != 0)
