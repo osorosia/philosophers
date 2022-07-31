@@ -1,6 +1,7 @@
 .vscode
 tmp*
 *.dSYM
+log
 
 philo
 obj
