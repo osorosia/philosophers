@@ -1,2 +1,2 @@
 run:
-	gcc thread.c && ./a.out
+	gcc -fsanitize=thread thread.c && ./a.out
