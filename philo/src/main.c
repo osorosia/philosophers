@@ -20,9 +20,6 @@ bool check_arg(int argc, char **argv) {
 int main(int argc, char **argv) {
     long i;
 
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    printf("%ld, %d\n", tv.tv_sec, tv.tv_usec);
     if (!check_arg(argc, argv))
         return usage();
 
