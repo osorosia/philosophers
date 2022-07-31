@@ -35,9 +35,9 @@ void *philo_routine(void *arg) {
         pthread_mutex_lock(&table->forks[second_fork(philo)]);
         action(philo, GET_FORK);
         action(philo, EAT);
+        action(philo, SLEEP);
         pthread_mutex_unlock(&table->forks[second_fork(philo)]);
         pthread_mutex_unlock(&table->forks[first_fork(philo)]);
-        action(philo, SLEEP);
         action(philo, THINK);
     }
     return NULL;
