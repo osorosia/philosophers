@@ -33,6 +33,8 @@ def get_act_kind(strs):
 
 dc = dict()
 first_line = True
+start_timestamp = 0
+prev_timestamp = 0
 last_timestamp = 0
 
 with open(filename) as f:
@@ -47,15 +49,20 @@ with open(filename) as f:
         if first_line:
             first_line = False
             start_timestamp = timestamp
+            prev_timestamp = timestamp
+
 
         if id not in dc:
             dc[id] = {
                 "prev_act": ACT.THINK,
                 "prev_act_time": timestamp,
-                "prev_eat_time": timestamp,
+                "prev_eat_time": start_timestamp,
                 "forks": 0,
                 "eat_times": 0,
             }
+        
+        if prev_timestamp > timestamp:
+            exit(1)
         
         # action ------------------------------------
         if act_kind == ACT.EAT:
@@ -114,6 +121,8 @@ with open(filename) as f:
 
         if act_kind == ACT.DIE:
             exit(1)
+
+        prev_timestamp = timestamp
 
 for k, v in dc:
     if last_timestamp - v["prev_eat_time"] > die:
