@@ -14,49 +14,62 @@
 #define DEBUG 0
 #endif
 
+
 typedef enum e_action_kind {
     EAT,
     SLEEP,
     THINK,
     GET_FORK,
-    DIED,
+    DIE,
 } t_action_kind;
 
-typedef struct s_rule {
+typedef struct s_rule t_rule;
+typedef struct s_philo t_philo;
+typedef struct s_table t_table;
+typedef struct s_monitor t_monitor;
+
+struct s_rule {
     long philo_num;
     long die;
     long eat;
     long sleep;
     long times;
-} t_rule;
+};
 
-typedef struct s_philo {
+struct s_philo {
+    long id;
+    t_rule *rule;
+    t_table *table;
+
     t_action_kind next_act_kind;
-    long start_time;
     long prev_eat_time;
     long prev_act_time;
-} t_philo;
+    long eat_count;
+};
 
-typedef struct s_table {
+struct s_table {
     long id;
     t_philo **philos;
     pthread_mutex_t *forks;
+    pthread_mutex_t print_mutex;
     t_rule *rule;
+    long start_time;
 
     bool finish;
-    // for debug
-} t_table;
+};
+
+struct s_monitor {
+    t_table *table;
+    t_rule *rule;
+    t_philo **philos;
+};
 
 // action.c
-void action_eat(t_table *table, long id);
-void action_sleep(t_table *table, long id);
-void action_think(t_table *table, long id);
-
-// print.c
-void print_act(t_table *table, long id, t_action_kind act_kind);
+void action(t_philo *philo, t_action_kind act_kind);
 
 // routine.c
-void *start_routine(void *arg);
+void *philo_routine(void *arg);
+void *monitor_routine(void *arg);
 
 // 
 // philo

@@ -44,49 +44,58 @@ int main(int argc, char **argv) {
     table.rule = &rule;
     // fork
     table.forks = malloc(rule.philo_num * sizeof(pthread_mutex_t));
-    if (table.forks == NULL)
-        error("malloc");
-    // philos
-    table.philos = malloc(rule.philo_num * sizeof(t_philo *));
-    if (table.philos == NULL)
-        error("malloc");
+    if (pthread_mutex_init(&(table.print_mutex), NULL) != 0)
+        error("pthread_mutex_init");
 
     // loop
     i = 0;
     while (i < rule.philo_num) {
         // forks
-        int ret = pthread_mutex_init(&(table.forks[i]), NULL);
-        if (ret != 0)
+        if (pthread_mutex_init(&(table.forks[i]), NULL) != 0)
             error("pthread_mutex_init");
-        // philos
-        table.philos[i] = malloc(sizeof(t_philo));
-        if (table.philos[i] == NULL)
-            error("malloc");
-        memset(table.philos[i], 0, sizeof(t_philo));
         i++;
     }
 
+    // philos ----------------------------------------------------
+    t_philo **philos = malloc(rule.philo_num * sizeof(t_philo *));
+
+    i = 0;    
+    while (i < rule.philo_num) {
+        philos[i] = malloc(sizeof(t_philo));
+        memset(philos[i], 0, sizeof(t_philo));
+        philos[i]->id = i;
+        philos[i]->table = &table;
+        philos[i]->rule = &rule;
+        i++;
+    }
+    
+    table.philos = philos;
+
+    // monitor ---------------------------------------------------
+    t_monitor monitor;
+    memset(&monitor, 0, sizeof(t_monitor));
+
+    monitor.philos = philos;
+    monitor.rule = &rule;
+    monitor.table = &table;
+
     // start thread ----------------------------------------------
     // init threads
-    pthread_t *th = malloc(sizeof(pthread_t) * rule.philo_num);
-    if (th == NULL)
-        error("malloc");
+    pthread_t *philo_th = malloc(sizeof(pthread_t) * rule.philo_num);
+    pthread_t monitor_th;
 
     // create threads
     i = 0;
     while (i < rule.philo_num) {
-        table.id = i;
-        int ret = pthread_create(&th[i], NULL, start_routine, &table);
-        if (ret != 0)
-            error("pthread_create");
-        usleep(1000);
+        pthread_create(&philo_th[i], NULL, philo_routine, philos[i]);
         i++;
     }
+    pthread_create(&monitor_th, NULL, monitor_routine, &monitor);
 
     // join threads
     i = 0;
     while (i < rule.philo_num) {
-        pthread_join(th[i], NULL);
+        pthread_join(philo_th[i], NULL);
         i++;
     }
     printf("end\n");

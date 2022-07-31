@@ -7,7 +7,8 @@ DEP = $(SRC:src/%.c=obj/%.d)
 OBJ_DIR = $(sort $(dir $(OBJ)))
 OBJ_DIR := $(addsuffix .keep, $(OBJ_DIR))
 
-CFLAGS = -g
+# CFLAGS = -g -fsanitize=thread
+# CFLAGS = -g -fsanitize=address 
 DEPFLAGS = -MMD -MP
 
 ifeq ($(MAKECMDGOALS), debug)
