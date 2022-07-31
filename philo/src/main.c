@@ -32,9 +32,9 @@ int main(int argc, char **argv) {
     rule.die = ft_atol(argv[2]);
     rule.eat = ft_atol(argv[3]);
     rule.sleep = ft_atol(argv[4]);
-    rule.times = -1;
+    rule.eat_count = -1;
     if (argc == 6)
-        rule.times = ft_atol(argv[5]);
+        rule.eat_count = ft_atol(argv[5]);
 
     // table --------------------------------
     t_table table;
@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
         philos[i]->rule = &rule;
         i++;
     }
-    
+
     table.philos = philos;
 
     // monitor ---------------------------------------------------
@@ -82,9 +82,11 @@ int main(int argc, char **argv) {
     // start thread ----------------------------------------------
     // init threads
     pthread_t *philo_th = malloc(sizeof(pthread_t) * rule.philo_num);
+    monitor.philo_th = philo_th;
     pthread_t monitor_th;
 
     // create threads
+    table.start_time = get_timestamp();
     i = 0;
     while (i < rule.philo_num) {
         pthread_create(&philo_th[i], NULL, philo_routine, philos[i]);

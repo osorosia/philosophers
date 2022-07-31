@@ -10,10 +10,7 @@ void print_action(t_philo *philo, t_action_kind act_kind, long timestamp) {
     };
     
     pthread_mutex_lock(&philo->table->print_mutex);
-    if (philo->table->start_time == 0)
-        philo->table->start_time = timestamp;
-
-    printf("%ld %ld %s\n", timestamp - philo->table->start_time, philo->id, act[act_kind]);
+    printf("%ld %ld %s\n", timestamp - philo->table->start_time, philo->id + 1, act[act_kind]);
     pthread_mutex_unlock(&philo->table->print_mutex);
 }
 
@@ -22,7 +19,7 @@ void action_eat(t_philo *philo) {
     print_action(philo, EAT, timestamp);
     philo->prev_act_time = timestamp;
     philo->prev_eat_time = timestamp;
-
+    philo->eat_count++;
 }
 
 void action_sleep(t_philo *philo) {

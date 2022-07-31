@@ -33,7 +33,7 @@ struct s_rule {
     long die;
     long eat;
     long sleep;
-    long times;
+    long eat_count;
 };
 
 struct s_philo {
@@ -52,6 +52,7 @@ struct s_table {
     t_philo **philos;
     pthread_mutex_t *forks;
     pthread_mutex_t print_mutex;
+
     t_rule *rule;
     long start_time;
 
@@ -62,6 +63,8 @@ struct s_monitor {
     t_table *table;
     t_rule *rule;
     t_philo **philos;
+
+    pthread_t *philo_th;
 };
 
 // action.c

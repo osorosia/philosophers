@@ -45,12 +45,31 @@ void *philo_routine(void *arg) {
 
 void *monitor_routine(void *arg) {
     t_monitor *monitor = (t_monitor *)arg;
+    t_philo **philos = monitor->philos;
     t_rule *rule = monitor->rule;
     t_table *table = monitor->table;
 
-    long i = 0;
-    while (i < monitor->rule->philo_num) {
-        i++;
+    while (true) {
+        long i = 0;
+        bool eat_ok = true;
+        while (i < rule->philo_num) {
+            if (rule->eat_count > 0 && philos[i]->eat_count < rule->eat_count)
+                eat_ok = false;
+            i++;
+        }
+
+        if (eat_ok)
+            break;
     }
+
+    pthread_mutex_lock(&table->print_mutex);
+    {
+        long i = 0;
+        while (i < rule->philo_num) {
+            pthread_detach(monitor->philo_th[i]);
+            i++;
+        }
+    }
+    pthread_mutex_unlock(&table->print_mutex);
     return NULL;
 }
