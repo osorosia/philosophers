@@ -39,4 +39,7 @@ re: fclean all
 debug:
 	echo $(DEBUG)
 
+test: all
+	cd .test && bash test.sh
+
 .PHONY: all clean fclean re
