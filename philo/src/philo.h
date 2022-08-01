@@ -51,6 +51,8 @@ struct s_table {
     long id;
     t_philo **philos;
     pthread_mutex_t *forks;
+    pthread_mutex_t *eat_time_mutex;
+    pthread_mutex_t *eat_count_mutex;
     pthread_mutex_t print_mutex;
 
     t_rule *rule;

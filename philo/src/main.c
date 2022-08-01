@@ -44,11 +44,20 @@ int main(int argc, char **argv) {
     if (pthread_mutex_init(&(table.print_mutex), NULL) != 0)
         error("pthread_mutex_init");
 
+    // eat_time, eat_count
+    table.eat_time_mutex = malloc(rule.philo_num * sizeof(pthread_mutex_t));
+    table.eat_count_mutex = malloc(rule.philo_num * sizeof(pthread_mutex_t));
+
     // loop
     i = 0;
     while (i < rule.philo_num) {
         // forks
         if (pthread_mutex_init(&(table.forks[i]), NULL) != 0)
+            error("pthread_mutex_init");
+        // eat_time, eat_count
+        if (pthread_mutex_init(&(table.eat_time_mutex[i]), NULL) != 0)
+            error("pthread_mutex_init");
+        if (pthread_mutex_init(&(table.eat_count_mutex[i]), NULL) != 0)
             error("pthread_mutex_init");
         i++;
     }
