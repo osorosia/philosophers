@@ -107,5 +107,4 @@ int main(int argc, char **argv) {
         pthread_join(philo_th[i], NULL);
         i++;
     }
-    printf("end\n");
 }

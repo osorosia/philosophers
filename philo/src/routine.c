@@ -59,7 +59,6 @@ void *monitor_routine(void *arg) {
             pthread_mutex_unlock(&table->eat_count_mutex[i]);
 
             pthread_mutex_lock(&table->eat_time_mutex[i]);
-
             if (philos[i]->prev_eat_time == 0 &&
                     get_timestamp() - table->start_time >= rule->die ||
                 philos[i]->prev_eat_time > 0 &&
@@ -67,7 +66,7 @@ void *monitor_routine(void *arg) {
 
                 pthread_mutex_lock(&table->print_mutex);
                 {
-                    printf("%ld %ld died.\n", get_timestamp() - table->start_time, i + 1);
+                    printf("%ld\t%ld died\n", get_timestamp() - table->start_time, i + 1);
                     long i = 0;
                     while (i < rule->philo_num) {
                         pthread_detach(monitor->philo_th[i]);

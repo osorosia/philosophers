@@ -39,7 +39,7 @@ last_timestamp = 0
 
 with open(filename) as f:
     for line in f:
-        strs = line.split()
+        strs = line.replace("\t", " ").split()
 
         timestamp = int(strs[0])
         last_timestamp = timestamp

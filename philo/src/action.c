@@ -11,7 +11,7 @@ void print_action(t_philo *philo, t_action_kind act_kind) {
 
     pthread_mutex_lock(&philo->table->print_mutex);
     philo->prev_act_time = get_timestamp();
-    printf("%ld %ld %s\n",
+    printf("%ld\t%ld %s\n",
         philo->prev_act_time - philo->table->start_time,
         philo->id + 1,
         act[act_kind]);
