@@ -101,6 +101,7 @@ int main(int argc, char **argv) {
     pthread_create(&monitor_th, NULL, monitor_routine, &monitor);
 
     // join threads
+    pthread_join(monitor_th, NULL);    
     i = 0;
     while (i < rule.philo_num) {
         pthread_join(philo_th[i], NULL);
