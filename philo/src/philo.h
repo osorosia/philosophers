@@ -82,6 +82,7 @@ void *philo_routine(void *arg);
 //
 void error(char *str);
 long ft_atol(char *str);
+void *ft_calloc(size_t count, size_t size);
 bool ft_isdigit(char c);
 long get_timestamp();
 bool is_num(char *str);
