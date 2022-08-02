@@ -19,7 +19,6 @@ typedef enum e_action_kind {
     SLEEP,
     THINK,
     GET_FORK,
-    DIE,
 } t_action_kind;
 
 typedef struct s_rule t_rule;
