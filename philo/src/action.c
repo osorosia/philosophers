@@ -5,15 +5,15 @@ bool print_action(t_philo *philo, t_action_kind act_kind) {
         "is eating", "is sleeping", "is thinking", "has taken a fork",
     };
 
-    pthread_mutex_lock(&philo->table->print_mutex);
+    ft_pthread_mutex_lock(&philo->table->print_mutex);
     philo->prev_act_time = get_timestamp();
     if (philo->table->finish) {
-        pthread_mutex_unlock(&philo->table->print_mutex);
+        ft_pthread_mutex_unlock(&philo->table->print_mutex);
         return false;
     }
     printf("%ld\t%ld %s\n", philo->prev_act_time - philo->table->start_time,
            philo->id + 1, act[act_kind]);
-    pthread_mutex_unlock(&philo->table->print_mutex);
+    ft_pthread_mutex_unlock(&philo->table->print_mutex);
     return true;
 }
 
@@ -22,13 +22,13 @@ bool action_eat(t_philo *philo) {
     if (!print_action(philo, EAT))
         return false;
 
-    pthread_mutex_lock(&philo->table->eat_time_mutex[philo->id]);
+    ft_pthread_mutex_lock(&philo->table->eat_time_mutex[philo->id]);
     philo->prev_eat_time = timestamp;
-    pthread_mutex_unlock(&philo->table->eat_time_mutex[philo->id]);
+    ft_pthread_mutex_unlock(&philo->table->eat_time_mutex[philo->id]);
 
-    pthread_mutex_lock(&philo->table->eat_count_mutex[philo->id]);
+    ft_pthread_mutex_lock(&philo->table->eat_count_mutex[philo->id]);
     philo->eat_count++;
-    pthread_mutex_unlock(&philo->table->eat_count_mutex[philo->id]);
+    ft_pthread_mutex_unlock(&philo->table->eat_count_mutex[philo->id]);
     return true;
 }
 

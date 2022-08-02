@@ -30,15 +30,15 @@ void *philo_routine(void *arg) {
     t_table *table = philo->table;
 
     while (true) {
-        pthread_mutex_lock(&table->forks[first_fork(philo)]);
+        ft_pthread_mutex_lock(&table->forks[first_fork(philo)]);
         if (!action(philo, GET_FORK))
             break;
-        pthread_mutex_lock(&table->forks[second_fork(philo)]);
+        ft_pthread_mutex_lock(&table->forks[second_fork(philo)]);
         if (!action(philo, GET_FORK) || !action(philo, EAT) ||
             !action(philo, SLEEP))
             break;
-        pthread_mutex_unlock(&table->forks[second_fork(philo)]);
-        pthread_mutex_unlock(&table->forks[first_fork(philo)]);
+        ft_pthread_mutex_unlock(&table->forks[second_fork(philo)]);
+        ft_pthread_mutex_unlock(&table->forks[first_fork(philo)]);
         if (!action(philo, THINK))
             break;
     }
