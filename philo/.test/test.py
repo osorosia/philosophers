@@ -6,7 +6,7 @@ philo = int(sys.argv[2])
 die = int(sys.argv[3])
 eat = int(sys.argv[4])
 sleep = int(sys.argv[5])
-times = int(sys.argv[6])
+eat_count = int(sys.argv[6])
 
 class ACT:
     EAT = enum.auto()
@@ -58,7 +58,7 @@ with open(filename) as f:
                 "prev_act_time": timestamp,
                 "prev_eat_time": start_timestamp,
                 "forks": 0,
-                "eat_times": 0,
+                "eat_count": 0,
             }
         
         if prev_timestamp > timestamp:
@@ -77,7 +77,7 @@ with open(filename) as f:
                 "prev_act_time": timestamp,
                 "prev_eat_time": timestamp,
                 "forks": 0,
-                "eat_times": dc[id]["eat_times"] + 1,
+                "eat_count": dc[id]["eat_count"] + 1,
             }
         
         if act_kind == ACT.SLEEP:
@@ -90,7 +90,7 @@ with open(filename) as f:
                 "prev_act_time": dc[id]["prev_eat_time"],
                 "prev_eat_time": timestamp,
                 "forks": 0,
-                "eat_times": dc[id]["eat_times"],
+                "eat_count": dc[id]["eat_count"],
             }
 
         if act_kind == ACT.THINK:
@@ -103,7 +103,7 @@ with open(filename) as f:
                 "prev_act_time": timestamp,
                 "prev_eat_time": dc[id]["prev_eat_time"],
                 "forks": 0,
-                "eat_times": dc[id]["eat_times"],
+                "eat_count": dc[id]["eat_count"],
             }
 
         if act_kind == ACT.GET_FORK:
@@ -116,7 +116,7 @@ with open(filename) as f:
                 "prev_act_time": timestamp,
                 "prev_eat_time": dc[id]["prev_eat_time"],
                 "forks": dc[id]["forks"] + 1,
-                "eat_times": dc[id]["eat_times"],
+                "eat_count": dc[id]["eat_count"],
             }
 
         if act_kind == ACT.DIE:
