@@ -33,14 +33,17 @@ void action_eat(t_philo *philo) {
 
 void action_sleep(t_philo *philo) {
     long timestamp = get_timestamp();
-    while (timestamp - philo->prev_act_time < philo->rule->eat)
+    while (timestamp - philo->prev_act_time < philo->rule->eat) {
+        usleep(100);
         timestamp = get_timestamp();
+    }
     print_action(philo, SLEEP);
 }
 
 void action_think(t_philo *philo) {
     long timestamp = get_timestamp();
     while (timestamp - philo->prev_act_time < philo->rule->sleep) {
+        usleep(100);
         timestamp = get_timestamp();
     }
     print_action(philo, THINK);

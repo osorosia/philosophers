@@ -72,14 +72,11 @@ struct s_monitor {
 // action.c
 void action(t_philo *philo, t_action_kind act_kind);
 
-// routine.c
-void *philo_routine(void *arg);
+// monitor_routine.c
 void *monitor_routine(void *arg);
 
-// 
-// philo
-// 
-void philo_set_next_act(t_philo *philo);
+// philo_routine.c
+void *philo_routine(void *arg);
 
 //
 // util
