@@ -55,10 +55,6 @@ bool action_get_fork(t_philo *philo) {
     return print_action(philo, GET_FORK);
 }
 
-bool action_die(t_philo *philo) {
-    return print_action(philo, DIE);
-}
-
 bool action(t_philo *philo, t_action_kind act_kind) {
     if (act_kind == EAT)
         return action_eat(philo);
@@ -68,7 +64,5 @@ bool action(t_philo *philo, t_action_kind act_kind) {
         return action_think(philo);
     else if (act_kind == GET_FORK)
         return action_get_fork(philo);
-    else if (act_kind == DIE)
-        return action_die(philo);
     return false;
 }
