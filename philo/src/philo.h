@@ -87,6 +87,9 @@ void error(char *str);
 long ft_atol(char *str);
 void *ft_calloc(size_t count, size_t size);
 bool ft_isdigit(char c);
+int ft_pthread_create(pthread_t *th, const pthread_attr_t *attr,
+                      void *(*start_routine)(void *), void *arg);
+int ft_pthread_join(pthread_t th, void **value_ptr);
 void ft_pthread_mutex_destroy(pthread_mutex_t *mutex);
 int ft_pthread_mutex_lock(pthread_mutex_t *mutex);
 int ft_pthread_mutex_unlock(pthread_mutex_t *mutex);
