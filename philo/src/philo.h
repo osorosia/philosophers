@@ -89,6 +89,8 @@ long ft_atol(char *str);
 void *ft_calloc(size_t count, size_t size);
 bool ft_isdigit(char c);
 void ft_pthread_mutex_destroy(pthread_mutex_t *mutex);
+int ft_pthread_mutex_lock(pthread_mutex_t *mutex);
+int ft_pthread_mutex_unlock(pthread_mutex_t *mutex);
 long get_timestamp();
 bool is_num(char *str);
 
