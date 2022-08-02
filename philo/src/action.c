@@ -2,7 +2,7 @@
 
 bool print_action(t_philo *philo, t_action_kind act_kind) {
     const char *act[] = {
-        "is eating", "is sleeping", "is thinking", "has taken a fork", "died",
+        "is eating", "is sleeping", "is thinking", "has taken a fork",
     };
 
     pthread_mutex_lock(&philo->table->print_mutex);
