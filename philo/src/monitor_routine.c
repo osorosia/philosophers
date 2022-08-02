@@ -8,10 +8,12 @@ void *monitor_routine(void *arg) {
 
     while (true) {
         long i = 0;
-        bool eat_ok = true;
+        bool eat_ok = false;
+        if (rule->eat_count > 0)
+            eat_ok = true;
         while (i < rule->philo_num) {
             pthread_mutex_lock(&table->eat_count_mutex[i]);
-            if (rule->eat_count > 0 && philos[i]->eat_count < rule->eat_count)
+            if (philos[i]->eat_count < rule->eat_count)
                 eat_ok = false;
             pthread_mutex_unlock(&table->eat_count_mutex[i]);
 
