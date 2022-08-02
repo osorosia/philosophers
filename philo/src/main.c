@@ -29,18 +29,18 @@ int dining_philos(t_table *table) {
     while (i < table->rule->philo_num) {
         ret = ft_pthread_create(&philo_th[i], NULL, philo_routine, table->philos[i]);
         if (ret != 0)
-        {
-            while (--i >= 0)
-                pthread_detach(philo_th[i]);
             return 1;
-        }
         i++;
     }
-    ft_pthread_create(&monitor_th, NULL, monitor_routine, table);
+    ret = ft_pthread_create(&monitor_th, NULL, monitor_routine, table);
+    if (ret != 0)
+        return 1;
     ft_pthread_join(monitor_th, NULL);
+    // printf("monitor join\n");
     i = 0;
     while (i < table->rule->philo_num) {
         ft_pthread_join(philo_th[i], NULL);
+        // printf("philo[%ld] join\n", i);
         i++;
     }
     free(philo_th);
@@ -56,6 +56,5 @@ int main(int argc, char **argv) {
     table = table_new(argc, argv);
     if (table == NULL)
         return 1;
-    ret = dining_philos(table);
-    return ret;
+    return dining_philos(table);
 }
