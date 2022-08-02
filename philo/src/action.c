@@ -70,4 +70,5 @@ bool action(t_philo *philo, t_action_kind act_kind) {
         return action_get_fork(philo);
     else if (act_kind == DIE)
         return action_die(philo);
+    return false;
 }
