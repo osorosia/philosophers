@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
     // philos ----------------------------------------------------
     t_philo **philos = malloc(rule.philo_num * sizeof(t_philo *));
 
-    i = 0;    
+    i = 0;
     while (i < rule.philo_num) {
         philos[i] = malloc(sizeof(t_philo));
         memset(philos[i], 0, sizeof(t_philo));
@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
     pthread_create(&monitor_th, NULL, monitor_routine, &monitor);
 
     // join threads
-    pthread_join(monitor_th, NULL);    
+    pthread_join(monitor_th, NULL);
     i = 0;
     while (i < rule.philo_num) {
         pthread_join(philo_th[i], NULL);

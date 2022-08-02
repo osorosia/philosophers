@@ -14,7 +14,6 @@
 #define DEBUG 0
 #endif
 
-
 typedef enum e_action_kind {
     EAT,
     SLEEP,

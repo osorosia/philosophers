@@ -21,11 +21,11 @@ void *monitor_routine(void *arg) {
             if (philos[i]->prev_eat_time == 0 &&
                     get_timestamp() - table->start_time >= rule->die ||
                 philos[i]->prev_eat_time > 0 &&
-                    get_timestamp() - philos[i]->prev_eat_time >= rule->die)
-            {
+                    get_timestamp() - philos[i]->prev_eat_time >= rule->die) {
                 pthread_mutex_lock(&table->print_mutex);
                 table->finish = true;
-                printf("%ld\t%ld died\n", get_timestamp() - table->start_time, i + 1);
+                printf("%ld\t%ld died\n", get_timestamp() - table->start_time,
+                       i + 1);
                 pthread_mutex_unlock(&table->print_mutex);
                 return NULL;
             }
