@@ -77,6 +77,10 @@ void *monitor_routine(void *arg);
 // philo_routine.c
 void *philo_routine(void *arg);
 
+// table.c
+t_table *table_new();
+void table_free(t_table *table);
+
 //
 // util
 //

@@ -1,10 +1,9 @@
 #include "philo.h"
 
 void *monitor_routine(void *arg) {
-    t_monitor *monitor = (t_monitor *)arg;
-    t_philo **philos = monitor->philos;
-    t_rule *rule = monitor->rule;
-    t_table *table = monitor->table;
+    t_table *table = (t_table *)arg;
+    t_philo **philos = table->philos;
+    t_rule *rule = table->rule;
 
     while (true) {
         long i = 0;
