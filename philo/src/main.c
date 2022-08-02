@@ -17,36 +17,45 @@ bool check_arg(int argc, char **argv) {
            is_num(argv[3]) && is_num(argv[4]) && (argc != 6 || is_num(argv[5]));
 }
 
-int main(int argc, char **argv) {
+int dining_philos(t_table *table) {
+    pthread_t *philo_th;
+    pthread_t monitor_th;
     long i;
+    int ret;
+
+    philo_th = malloc(sizeof(pthread_t) * table->rule->philo_num);
+    table->start_time = get_timestamp();
+    i = 0;
+    while (i < table->rule->philo_num) {
+        ret = ft_pthread_create(&philo_th[i], NULL, philo_routine, table->philos[i]);
+        if (ret != 0)
+        {
+            while (--i >= 0)
+                pthread_detach(philo_th[i]);
+            return 1;
+        }
+        i++;
+    }
+    ft_pthread_create(&monitor_th, NULL, monitor_routine, table);
+    ft_pthread_join(monitor_th, NULL);
+    i = 0;
+    while (i < table->rule->philo_num) {
+        ft_pthread_join(philo_th[i], NULL);
+        i++;
+    }
+    free(philo_th);
+    return 0;
+}
+
+int main(int argc, char **argv) {
     t_table *table;
-    t_rule  *rule;
+    int ret;
 
     if (!check_arg(argc, argv))
         return usage();
     table = table_new(argc, argv);
     if (table == NULL)
         return 1;
-    
-    // start thread ----------------------------------------------
-    // init threads
-    pthread_t *philo_th = malloc(sizeof(pthread_t) * table->rule->philo_num);
-    pthread_t monitor_th;
-
-    // create threads
-    table->start_time = get_timestamp();
-    i = 0;
-    while (i < table->rule->philo_num) {
-        pthread_create(&philo_th[i], NULL, philo_routine, table->philos[i]);
-        i++;
-    }
-    pthread_create(&monitor_th, NULL, monitor_routine, table);
-
-    // join threads
-    pthread_join(monitor_th, NULL);
-    i = 0;
-    while (i < table->rule->philo_num) {
-        pthread_join(philo_th[i], NULL);
-        i++;
-    }
+    ret = dining_philos(table);
+    return ret;
 }
