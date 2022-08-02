@@ -4,6 +4,7 @@ void *monitor_routine(void *arg) {
     t_table *table = (t_table *)arg;
     t_philo **philos = table->philos;
     t_rule *rule = table->rule;
+    bool end = false;
 
     while (true) {
         long i = 0;
@@ -26,9 +27,11 @@ void *monitor_routine(void *arg) {
                 printf("%ld\t%ld died\n", get_timestamp() - table->start_time,
                        i + 1);
                 pthread_mutex_unlock(&table->print_mutex);
-                return NULL;
+                end = true;
             }
             pthread_mutex_unlock(&table->eat_time_mutex[i]);
+            if (end)
+                return NULL;
             i++;
         }
         if (eat_ok) {
