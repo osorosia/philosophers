@@ -70,7 +70,7 @@ struct s_monitor {
 };
 
 // action.c
-void action(t_philo *philo, t_action_kind act_kind);
+bool action(t_philo *philo, t_action_kind act_kind);
 
 // monitor_routine.c
 void *monitor_routine(void *arg);

@@ -31,14 +31,17 @@ void *philo_routine(void *arg) {
 
     while (true) {
         pthread_mutex_lock(&table->forks[first_fork(philo)]);
-        action(philo, GET_FORK);
+        if (!action(philo, GET_FORK))
+            break;
         pthread_mutex_lock(&table->forks[second_fork(philo)]);
-        action(philo, GET_FORK);
-        action(philo, EAT);
-        action(philo, SLEEP);
+        if (!action(philo, GET_FORK)
+            || !action(philo, EAT)
+            || !action(philo, SLEEP))
+            break;
         pthread_mutex_unlock(&table->forks[second_fork(philo)]);
         pthread_mutex_unlock(&table->forks[first_fork(philo)]);
-        action(philo, THINK);
+        if (!action(philo, THINK))
+            break;
     }
     return NULL;
 }

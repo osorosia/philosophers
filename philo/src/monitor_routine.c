@@ -21,37 +21,25 @@ void *monitor_routine(void *arg) {
             if (philos[i]->prev_eat_time == 0 &&
                     get_timestamp() - table->start_time >= rule->die ||
                 philos[i]->prev_eat_time > 0 &&
-                    get_timestamp() - philos[i]->prev_eat_time >= rule->die) {
-
+                    get_timestamp() - philos[i]->prev_eat_time >= rule->die)
+            {
                 pthread_mutex_lock(&table->print_mutex);
-                {
-                    printf("%ld\t%ld died\n", get_timestamp() - table->start_time, i + 1);
-                    long i = 0;
-                    while (i < rule->philo_num) {
-                        pthread_detach(monitor->philo_th[i]);
-                        i++;
-                    }
-                }
+                table->finish = true;
+                printf("%ld\t%ld died\n", get_timestamp() - table->start_time, i + 1);
                 pthread_mutex_unlock(&table->print_mutex);
                 return NULL;
             }
             pthread_mutex_unlock(&table->eat_time_mutex[i]);
-
             i++;
+        }
+        if (eat_ok) {
+            pthread_mutex_lock(&table->print_mutex);
+            table->finish = true;
+            pthread_mutex_unlock(&table->print_mutex);
+            return NULL;
         }
         usleep(10);
-        if (eat_ok)
-            break;
     }
 
-    pthread_mutex_lock(&table->print_mutex);
-    {
-        long i = 0;
-        while (i < rule->philo_num) {
-            pthread_detach(monitor->philo_th[i]);
-            i++;
-        }
-    }
-    pthread_mutex_unlock(&table->print_mutex);
     return NULL;
 }

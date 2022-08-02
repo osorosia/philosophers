@@ -1,6 +1,6 @@
 #include "philo.h"
 
-void print_action(t_philo *philo, t_action_kind act_kind) {
+bool print_action(t_philo *philo, t_action_kind act_kind) {
     const char *act[] = {
         "is eating",
         "is sleeping",
@@ -8,19 +8,25 @@ void print_action(t_philo *philo, t_action_kind act_kind) {
         "has taken a fork",
         "died",
     };
-
+    
     pthread_mutex_lock(&philo->table->print_mutex);
     philo->prev_act_time = get_timestamp();
+    if (philo->table->finish) {
+        pthread_mutex_unlock(&philo->table->print_mutex);
+        return false;
+    }
     printf("%ld\t%ld %s\n",
         philo->prev_act_time - philo->table->start_time,
         philo->id + 1,
         act[act_kind]);
     pthread_mutex_unlock(&philo->table->print_mutex);
+    return true;
 }
 
-void action_eat(t_philo *philo) {
+bool action_eat(t_philo *philo) {
     long timestamp = get_timestamp();
-    print_action(philo, EAT);
+    if (!print_action(philo, EAT))
+        return false;
 
     pthread_mutex_lock(&philo->table->eat_time_mutex[philo->id]);
     philo->prev_eat_time = timestamp;
@@ -29,44 +35,45 @@ void action_eat(t_philo *philo) {
     pthread_mutex_lock(&philo->table->eat_count_mutex[philo->id]);
     philo->eat_count++;
     pthread_mutex_unlock(&philo->table->eat_count_mutex[philo->id]);
+    return true;
 }
 
-void action_sleep(t_philo *philo) {
+bool action_sleep(t_philo *philo) {
     long timestamp = get_timestamp();
     while (timestamp - philo->prev_act_time < philo->rule->eat) {
         usleep(100);
         timestamp = get_timestamp();
     }
-    print_action(philo, SLEEP);
+    return print_action(philo, SLEEP);
 }
 
-void action_think(t_philo *philo) {
+bool action_think(t_philo *philo) {
     long timestamp = get_timestamp();
     while (timestamp - philo->prev_act_time < philo->rule->sleep) {
         usleep(100);
         timestamp = get_timestamp();
     }
-    print_action(philo, THINK);
+    return print_action(philo, THINK);
 }
 
-void action_get_fork(t_philo *philo) {
+bool action_get_fork(t_philo *philo) {
     long timestamp = get_timestamp();
-    print_action(philo, GET_FORK);
+    return print_action(philo, GET_FORK);
 }
 
-void action_die(t_philo *philo) {
-    print_action(philo, DIE);
+bool action_die(t_philo *philo) {
+    return print_action(philo, DIE);
 }
 
-void action(t_philo *philo, t_action_kind act_kind) {
+bool action(t_philo *philo, t_action_kind act_kind) {
     if (act_kind == EAT)
-        action_eat(philo);
+        return action_eat(philo);
     else if (act_kind == SLEEP)
-        action_sleep(philo);
+        return action_sleep(philo);
     else if (act_kind == THINK)
-        action_think(philo);
+        return action_think(philo);
     else if (act_kind == GET_FORK)
-        action_get_fork(philo);
+        return action_get_fork(philo);
     else if (act_kind == DIE)
-        action_die(philo);
+        return action_die(philo);
 }
