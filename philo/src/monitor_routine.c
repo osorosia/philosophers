@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:11:12 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 14:04:34 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 18:16:03 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ bool	check_philo_died(t_table *table, long id)
 
 	ft_pthread_mutex_lock(&table->eat_time_mutex[id]);
 	timestamp = get_timestamp();
-	if (table->philos[id]->prev_eat_time == 0
-		&& timestamp - table->start_time >= table->rule->die
-		|| table->philos[id]->prev_eat_time > 0
-		&& timestamp - table->philos[id]->prev_eat_time >= table->rule->die)
+	if ((table->philos[id]->prev_eat_time == 0
+		&& timestamp - table->start_time >= table->rule->die)
+		|| (table->philos[id]->prev_eat_time > 0
+		&& timestamp - table->philos[id]->prev_eat_time >= table->rule->die))
 	{
 		set_finish(table);
 		is_died = true;

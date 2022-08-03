@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 10:38:44 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 17:06:01 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 18:15:47 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ void	*philo_routine(void *arg)
 		if (!is_finish && !action(philo, GET_FORK))
 			is_finish = true;
 		ft_pthread_mutex_lock(&philo->table->forks[second_fork(philo)]);
-		if (!is_finish && !action(philo, GET_FORK)
-			|| !is_finish && !action(philo, EAT)
-			|| !is_finish && !action(philo, SLEEP))
+		if ((!is_finish && !action(philo, GET_FORK))
+			|| (!is_finish && !action(philo, EAT))
+			|| (!is_finish && !action(philo, SLEEP)))
 			is_finish = true;
 		ft_pthread_mutex_unlock(&philo->table->forks[second_fork(philo)]);
 		ft_pthread_mutex_unlock(&philo->table->forks[first_fork(philo)]);
