@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 10:38:44 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 15:09:53 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 15:19:10 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,26 @@ long	second_fork(t_philo *philo)
 	return (id);
 }
 
+void	*one_philo_routine(t_philo *philo)
+{
+	t_table	*table;
+	bool	is_finish;
+
+	table = philo->table;
+	is_finish = false;
+	ft_pthread_mutex_lock(&table->forks[first_fork(philo)]);
+	action(philo, GET_FORK);
+	while (!is_finish)
+	{
+		ft_pthread_mutex_lock(&table->print_mutex);
+		is_finish = table->finish;
+		ft_pthread_mutex_unlock(&table->print_mutex);
+		usleep(100);
+	}
+	ft_pthread_mutex_unlock(&table->forks[first_fork(philo)]);
+	return (NULL);
+}
+
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
@@ -45,6 +65,8 @@ void	*philo_routine(void *arg)
 	bool	is_finish;
 
 	philo = (t_philo *)arg;
+	if (philo->rule->philo_num == 1)
+		return (one_philo_routine(philo));
 	table = philo->table;
 	is_finish = false;
 	while (!is_finish)
