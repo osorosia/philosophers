@@ -17,6 +17,21 @@ bool check_arg(int argc, char **argv) {
            is_num(argv[3]) && is_num(argv[4]) && (argc != 6 || is_num(argv[5]));
 }
 
+int start_dining_group_of_philos(t_table *table, pthread_t *philo_th, t_group group)
+{
+    long    i;
+    int     ret;
+
+    i = group;
+    while (i < table->rule->philo_num) {
+        ret = ft_pthread_create(&philo_th[i], NULL, philo_routine, table->philos[i]);
+        if (ret != 0)
+            return 1;
+        i += 2;
+    }
+    return 0;
+}
+
 int dining_philos(t_table *table) {
     pthread_t *philo_th;
     pthread_t monitor_th;
@@ -25,22 +40,17 @@ int dining_philos(t_table *table) {
 
     philo_th = malloc(sizeof(pthread_t) * table->rule->philo_num);
     table->start_time = get_timestamp();
-    i = 0;
-    while (i < table->rule->philo_num) {
-        ret = ft_pthread_create(&philo_th[i], NULL, philo_routine, table->philos[i]);
-        if (ret != 0)
-            return 1;
-        i++;
-    }
+    start_dining_group_of_philos(table, philo_th, ODD);
+    start_dining_group_of_philos(table, philo_th, EVEN);
     ret = ft_pthread_create(&monitor_th, NULL, monitor_routine, table);
     if (ret != 0)
         return 1;
     ft_pthread_join(monitor_th, NULL);
-    printf("monitor join\n");
+    // printf("monitor join\n");
     i = 0;
     while (i < table->rule->philo_num) {
         ft_pthread_join(philo_th[i], NULL);
-        printf("philo[%ld] join\n", i);
+        // printf("philo[%ld] join\n", i);
         i++;
     }
     free(philo_th);
