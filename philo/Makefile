@@ -8,7 +8,7 @@ OBJ_DIR = $(sort $(dir $(OBJ)))
 OBJ_DIR := $(addsuffix .keep, $(OBJ_DIR))
 
 # CFLAGS = -g -fsanitize=thread
-# CFLAGS = -g -fsanitize=address 
+# CFLAGS = -g -fsanitize=address
 DEPFLAGS = -MMD -MP
 
 ifeq ($(MAKECMDGOALS), debug)
@@ -42,5 +42,8 @@ debug:
 
 test: all
 	cd .test && bash test.sh
+
+norm:
+	norminette src | grep Error! || echo OK
 
 .PHONY: all clean fclean re
