@@ -5,13 +5,13 @@ GREEN='\033[32m'
 NC='\033[0m'
 
 function CHECK_DIED() {
-  testcase="${1}_${2}_${3}_${4}_${5}"
+  testcase="died_${1}_${2}_${3}_${4}_${5}"
   ../philo $1 $2 $3 $4 $5 > "log/${testcase}.txt"
 
   python3 test.py "log/${testcase}.txt" "$1" "$2" "$3" "$4" "$5"
   result=$?
 
-  cat "log/${testcase}.txt" | grep died > /dev/null
+  cat "log/${testcase}.txt" | tail -1 | grep died > /dev/null
   result=$?
 
   if [ "$result" = "0" ]; then
@@ -23,7 +23,7 @@ function CHECK_DIED() {
 }
 
 function CHECK_LIVE() {
-  testcase="${1}_${2}_${3}_${4}_${5}"
+  testcase="live_${1}_${2}_${3}_${4}_${5}"
   ../philo $1 $2 $3 $4 $5 > "log/${testcase}.txt"
   
   python3 test.py "log/${testcase}.txt" "$1" "$2" "$3" "$4" "$5"
