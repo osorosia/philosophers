@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 13:54:17 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 13:54:47 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 18:22:03 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ bool	set_mutex(t_table *table);
 t_table	*table_new(int argc, char **argv)
 {
 	t_table	*table;
-	t_rule	*rule;
 
 	table = ft_calloc(1, sizeof(t_table));
 	if (table == NULL)

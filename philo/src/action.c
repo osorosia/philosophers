@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 10:28:50 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 11:40:28 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 18:20:07 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 bool	action_eat(t_philo *philo)
 {
-	long	timestamp;
-
 	if (!print_action(philo, EAT))
 		return (false);
 	ft_pthread_mutex_lock(&philo->table->eat_count_mutex[philo->id]);
