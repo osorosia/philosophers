@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 13:56:15 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 17:04:29 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/04 08:33:10 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,17 @@ int	dining_philos(t_table *table)
 	pthread_t	*philo_th;
 	pthread_t	monitor_th;
 	long		i;
-	int			ret;
 
 	philo_th = malloc(sizeof(pthread_t) * table->rule->philo_num);
-	table->start_time = get_timestamp();
-	start_dining_philos(table, philo_th);
-	ret = ft_pthread_create(&monitor_th, NULL, monitor_routine, table);
-	if (ret != 0)
+	if (philo_th == NULL)
 		return (1);
+	table->start_time = get_timestamp();
+	if (start_dining_philos(table, philo_th)
+		|| ft_pthread_create(&monitor_th, NULL, monitor_routine, table))
+	{
+		free(philo_th);
+		return (1);
+	}
 	ft_pthread_join(monitor_th, NULL);
 	i = 0;
 	while (i < table->rule->philo_num)
