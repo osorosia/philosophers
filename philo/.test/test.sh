@@ -18,9 +18,9 @@ function CHECK_DIED() {
   fi
 
   if [ "$result" = "0" ]; then
-    echo -e "${GREEN}DIED:${NC} $1 $2 $3 $4 $5"
+    echo -e "${GREEN}DIED OK:${NC} $1 $2 $3 $4 $5"
   else
-    echo -e "${RED}DIED:${NC} $1 $2 $3 $4 $5"
+    echo -e "${RED}DIED KO:${NC} $1 $2 $3 $4 $5"
   fi
 
 }
@@ -39,9 +39,9 @@ function CHECK_LIVE() {
   fi
 
   if [ "$result" = "0" ]; then
-    echo -e "${GREEN}LIVE:${NC} $1 $2 $3 $4 $5"
+    echo -e "${GREEN}LIVE OK:${NC} $1 $2 $3 $4 $5"
   else
-    echo -e "${RED}LIVE:${NC} $1 $2 $3 $4 $5"
+    echo -e "${RED}LIVE KO:${NC} $1 $2 $3 $4 $5"
   fi
 }
 
