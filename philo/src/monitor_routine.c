@@ -6,17 +6,18 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:11:12 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 11:47:35 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 13:45:48 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	set_finish(t_table *table)
+void	*set_finish(t_table *table)
 {
 	ft_pthread_mutex_lock(&table->print_mutex);
 	table->finish = true;
 	ft_pthread_mutex_unlock(&table->print_mutex);
+	return (NULL);
 }
 
 long	get_eat_count_of_philo(t_table *table, long id)
@@ -36,6 +37,7 @@ bool	check_philo_died(t_table *table, long id)
 
 	ft_pthread_mutex_lock(&table->eat_time_mutex[id]);
 	timestamp = get_timestamp();
+	ft_pthread_mutex_unlock(&table->eat_time_mutex[id]);
 	if (table->philos[id]->prev_eat_time == 0 
 		&& timestamp - table->start_time >= table->rule->die
 		|| table->philos[id]->prev_eat_time > 0
@@ -45,7 +47,6 @@ bool	check_philo_died(t_table *table, long id)
 		is_died = true;
 		printf("%ld\t%ld died\n", get_timestamp() - table->start_time, id + 1);
 	}
-	ft_pthread_mutex_unlock(&table->eat_time_mutex[id]);
 	return (is_died);
 }
 
@@ -70,10 +71,8 @@ void	*monitor_routine(void *arg)
 			i++;
 		}
 		if (eat_ok)
-		{
-			set_finish(table);
-			return (NULL);
-		}
+			return (set_finish(table));
+		usleep(100);
 	}
 	return (NULL);
 }
