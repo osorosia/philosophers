@@ -1,6 +1,29 @@
 NAME = philo
 
-SRC = $(wildcard src/*.c) $(wildcard src/*/*.c)
+SRC += $(addprefix src/, \
+	action.c \
+	main.c \
+	monitor_routine.c \
+	philo_routine.c \
+	print.c \
+	table.c \
+	table1.c \
+)
+SRC += $(addprefix src/ft_pthread/, \
+	ft_pthread_create.c \
+	ft_pthread_join.c \
+	ft_pthread_mutex_destroy.c \
+	ft_pthread_mutex_lock.c \
+	ft_pthread_mutex_unlock.c \
+)
+SRC += $(addprefix src/util/, \
+	ft_atol.c \
+	ft_calloc.c \
+	ft_isdigit.c \
+	get_timestamp.c \
+	is_num.c \
+)
+
 OBJ = $(SRC:src/%.c=obj/%.o)
 DEP = $(SRC:src/%.c=obj/%.d)
 
@@ -8,13 +31,9 @@ OBJ_DIR = $(sort $(dir $(OBJ)))
 OBJ_DIR := $(addsuffix .keep, $(OBJ_DIR))
 
 CFLAGS = -Wall -Wextra -Werror
-# CFLAGS = -g -fsanitize=thread
-# CFLAGS = -g -fsanitize=address
+# CFLAGS += -g -fsanitize=thread
+# CFLAGS += -g -fsanitize=address
 DEPFLAGS = -MMD -MP
-
-ifeq ($(MAKECMDGOALS), debug)
-	DEBUG = -D DEBUG
-endif
 
 OS = $(shell uname)
 ifeq ($(OS), Linux)
@@ -42,9 +61,6 @@ fclean: clean $(HEADER)
 	rm -f $(NAME)
 
 re: fclean all
-
-debug:
-	echo $(DEBUG)
 
 test: all
 	cd .test && bash test.sh
