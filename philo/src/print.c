@@ -7,11 +7,17 @@ bool	print_action(t_philo *philo, t_action_kind act_kind)
 	};
 
 	ft_pthread_mutex_lock(&philo->table->print_mutex);
-	philo->prev_act_time = get_timestamp();
 	if (philo->table->finish)
 	{
 		ft_pthread_mutex_unlock(&philo->table->print_mutex);
 		return (false);
+	}
+	philo->prev_act_time = get_timestamp();
+	if (act_kind == EAT)
+	{
+		ft_pthread_mutex_lock(&philo->table->eat_time_mutex[philo->id]);
+		philo->prev_eat_time = philo->prev_act_time;
+		ft_pthread_mutex_unlock(&philo->table->eat_time_mutex[philo->id]);
 	}
 	printf("%ld\t%ld %s\n", philo->prev_act_time - philo->table->start_time,
 		   philo->id + 1, act[act_kind]);
