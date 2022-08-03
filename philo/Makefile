@@ -15,8 +15,13 @@ ifeq ($(MAKECMDGOALS), debug)
 	DEBUG = -D DEBUG
 endif
 
+OS = $(shell uname)
+ifeq ($(OS), Linux)
+	LDFLAGS	= -pthread  -lpthread
+endif
+
 $(NAME): $(OBJ)
-	cc $(CFLAGS) $(DEBUG) -o $@ $(OBJ)
+	cc $(CFLAGS) $(DEBUG) -o $@ $(OBJ) $(LDFLAGS)
 
 obj/%.o: src/%.c $(OBJ_DIR)
 	cc $(CFLAGS) $(DEPFLAGS) $(DEBUG) -o $@ -c $<
