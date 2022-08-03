@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 10:38:44 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 10:41:05 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 10:54:02 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,25 @@ long	second_fork(t_philo *philo)
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
-	t_rule	*rule;
 	t_table	*table;
+	bool	is_finish;
 
 	philo = (t_philo *)arg;
-	rule = philo->rule;
 	table = philo->table;
-	while (true)
+	while (!is_finish)
 	{
 		ft_pthread_mutex_lock(&table->forks[first_fork(philo)]);
 		if (!action(philo, GET_FORK))
-			break ;
+			is_finish = true;
 		ft_pthread_mutex_lock(&table->forks[second_fork(philo)]);
-		if (!action(philo, GET_FORK)
-			|| !action(philo, EAT)
-			|| !action(philo, SLEEP))
-			break ;
+		if (!is_finish && !action(philo, GET_FORK)
+			|| !is_finish && !action(philo, EAT)
+			|| !is_finish && !action(philo, SLEEP))
+			is_finish = true;
 		ft_pthread_mutex_unlock(&table->forks[second_fork(philo)]);
 		ft_pthread_mutex_unlock(&table->forks[first_fork(philo)]);
-		if (!action(philo, THINK))
-			break ;
+		if (!is_finish && !action(philo, THINK))
+			is_finish = true;
 	}
 	return (NULL);
 }
