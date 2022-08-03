@@ -33,11 +33,12 @@ def check_philo(lines, target_id):
     prev_act_time = 0
     prev_eat_time = 0
     prev_act_kind = ACT.THINK
+    target_eat_count = 0
     fork = 0
 
     for strs in lines:
         timestamp = int(strs[0])
-        now_id = int(strs[1])
+        target_id = int(strs[1])
         if id != target_id:
             continue
 
@@ -46,31 +47,40 @@ def check_philo(lines, target_id):
             if prev_act_kind != ACT.THINK \
                 or fork != 2 \
                 or timestamp - prev_eat_time > die:
+                pass
                 exit(1)
             prev_eat_time = timestamp
             fork = 0
+            target_eat_count += 1
         if act_kind == ACT.SLEEP:
             if prev_act_kind != ACT.EAT \
                 or timestamp - prev_eat_time > die \
                 or timestamp - prev_act_time < eat:
+                pass
                 exit(1)
         if act_kind == ACT.THINK:
             if prev_act_kind != ACT.SLEEP \
                 or timestamp - prev_eat_time > die \
                 or timestamp - prev_act_time < sleep:
+                pass
                 exit(1)
         if act_kind == ACT.GET_FORK:
             if prev_act_kind == ACT.THINK and fork == 0 \
                 or prev_act_kind == ACT.GET_FORK and fork == 1 :
                 fork += 1
             else:
+                pass
                 exit(1)
         if act_kind == ACT.DIE:
             if die <= timestamp - prev_eat_time <= die + 10:
                 pass
             else:
+                pass
                 exit(1)
         prev_act_time = timestamp
+    if target_eat_count < eat_count:
+        pass
+        exit(1)
 
 if __name__ == '__main__':
     lines = []
