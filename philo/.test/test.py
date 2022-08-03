@@ -9,6 +9,8 @@ eat = int(sys.argv[4])
 sleep = int(sys.argv[5])
 eat_count = int(sys.argv[6])
 
+die_id = -1
+
 class ACT:
     EAT = enum.auto()
     SLEEP = enum.auto()
@@ -88,19 +90,24 @@ def check_philo(lines, target_id):
             if die <= timestamp - prev_eat_time <= die + 10:
                 after_die = True
             else:
-                print("die")
                 exit(1)
         prev_act_time = timestamp
         prev_act_kind = act_kind
-    if not after_die and target_eat_count < eat_count:
-        print(target_eat_count, '<', eat_count);
-        exit(1)
+    if not after_die and target_eat_count < eat_count :
+        if die_id >= 0 and target_id != die_id:
+            pass
+        else:    
+            print('eat_count', target_eat_count, '<', eat_count);
+            exit(1)
 
 if __name__ == '__main__':
     lines = []
     with open(filename) as f:
         for line in f:
             strs = line.replace("\t", " ").split()
+            kind = get_act_kind(strs)
+            if kind == ACT.DIE:
+                die_id = int(strs[1])
             lines.append(strs)
     
     for i in range(1, philo_num + 1):
