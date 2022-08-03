@@ -36,11 +36,11 @@ int dining_philos(t_table *table) {
     if (ret != 0)
         return 1;
     ft_pthread_join(monitor_th, NULL);
-    // printf("monitor join\n");
+    printf("monitor join\n");
     i = 0;
     while (i < table->rule->philo_num) {
         ft_pthread_join(philo_th[i], NULL);
-        // printf("philo[%ld] join\n", i);
+        printf("philo[%ld] join\n", i);
         i++;
     }
     free(philo_th);
@@ -56,5 +56,7 @@ int main(int argc, char **argv) {
     table = table_new(argc, argv);
     if (table == NULL)
         return 1;
-    return dining_philos(table);
+    ret = dining_philos(table);
+    table_free(table);
+    return ret;
 }
