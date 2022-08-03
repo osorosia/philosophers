@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 13:56:15 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 13:59:51 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 17:04:29 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,20 @@ bool	check_arg(int argc, char **argv)
 		&& (argc != 6 || is_num(argv[5])));
 }
 
-int	start_dining_group_of_philos(
-	t_table *table, pthread_t *philo_th, t_group group)
+int	start_dining_philos(
+	t_table *table, pthread_t *philo_th)
 {
 	long	i;
 	int		ret;
 
-	i = group;
+	i = 0;
 	while (i < table->rule->philo_num)
 	{
 		ret = ft_pthread_create(
 				&philo_th[i], NULL, philo_routine, table->philos[i]);
 		if (ret != 0)
 			return (1);
-		i += 2;
+		i++;
 	}
 	return (0);
 }
@@ -62,8 +62,7 @@ int	dining_philos(t_table *table)
 
 	philo_th = malloc(sizeof(pthread_t) * table->rule->philo_num);
 	table->start_time = get_timestamp();
-	start_dining_group_of_philos(table, philo_th, ODD);
-	start_dining_group_of_philos(table, philo_th, EVEN);
+	start_dining_philos(table, philo_th);
 	ret = ft_pthread_create(&monitor_th, NULL, monitor_routine, table);
 	if (ret != 0)
 		return (1);

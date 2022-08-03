@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 10:38:44 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 15:19:10 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 17:06:01 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,29 +58,48 @@ void	*one_philo_routine(t_philo *philo)
 	return (NULL);
 }
 
+void	init_sleep(t_philo *philo)
+{
+	if (philo->rule->philo_num % 2 == 0)
+	{
+		if (philo->id % 2 == 1)
+			usleep(philo->rule->eat * 1000);
+	}
+	else
+	{
+		if (philo->id % 5 == 1)
+			usleep(philo->rule->eat * 1000);
+		else if (philo->id % 5 == 2)
+			usleep(philo->rule->eat * 2000);
+		else if (philo->id % 5 == 3)
+			usleep(philo->rule->eat * 500);
+		else if (philo->id % 5 == 4)
+			usleep(philo->rule->eat * 1500);
+	}
+}
+
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
-	t_table	*table;
 	bool	is_finish;
 
 	philo = (t_philo *)arg;
 	if (philo->rule->philo_num == 1)
 		return (one_philo_routine(philo));
-	table = philo->table;
+	init_sleep(philo);
 	is_finish = false;
 	while (!is_finish)
 	{
-		ft_pthread_mutex_lock(&table->forks[first_fork(philo)]);
+		ft_pthread_mutex_lock(&philo->table->forks[first_fork(philo)]);
 		if (!is_finish && !action(philo, GET_FORK))
 			is_finish = true;
-		ft_pthread_mutex_lock(&table->forks[second_fork(philo)]);
+		ft_pthread_mutex_lock(&philo->table->forks[second_fork(philo)]);
 		if (!is_finish && !action(philo, GET_FORK)
 			|| !is_finish && !action(philo, EAT)
 			|| !is_finish && !action(philo, SLEEP))
 			is_finish = true;
-		ft_pthread_mutex_unlock(&table->forks[second_fork(philo)]);
-		ft_pthread_mutex_unlock(&table->forks[first_fork(philo)]);
+		ft_pthread_mutex_unlock(&philo->table->forks[second_fork(philo)]);
+		ft_pthread_mutex_unlock(&philo->table->forks[first_fork(philo)]);
 		if (!is_finish && !action(philo, THINK))
 			is_finish = true;
 	}

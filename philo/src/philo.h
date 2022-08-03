@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 10:32:37 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 13:09:05 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 17:06:21 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ typedef enum e_action_kind {
 	THINK,
 	GET_FORK,
 }	t_action_kind;
-
-typedef enum e_group {
-	ODD = 0,
-	EVEN = 1,
-}	t_group;
 
 typedef struct s_rule		t_rule;
 typedef struct s_philo		t_philo;
