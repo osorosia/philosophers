@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 10:32:37 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 12:02:52 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 13:09:05 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,17 @@ struct s_philo {
 };
 
 struct s_table {
-	long			id;
 	t_philo			**philos;
+	t_rule			*rule;
+
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*eat_time_mutex;
 	pthread_mutex_t	*eat_count_mutex;
 	pthread_mutex_t	print_mutex;
 
-	t_rule			*rule;
 	long			start_time;
 
 	bool			finish;
-};
-
-struct s_monitor {
-	t_table		*table;
-	t_rule		*rule;
-	t_philo		**philos;
-
-	pthread_t	*philo_th;
 };
 
 // action.c
@@ -113,7 +105,6 @@ int		ft_pthread_mutex_unlock(pthread_mutex_t *mutex);
 //
 // util
 //
-void	error(char *str);
 long	ft_atol(char *str);
 void	*ft_calloc(size_t count, size_t size);
 bool	ft_isdigit(char c);
