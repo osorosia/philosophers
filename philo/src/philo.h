@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 10:32:37 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 11:25:34 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 12:02:52 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,22 @@ t_table	*table_new(int argc, char **argv);
 void	table_free(t_table *table);
 
 //
+// ft_pthread
+// 
+int		ft_pthread_create(pthread_t *th, const pthread_attr_t *attr, \
+					  void *(*start_routine)(void *), void *arg);
+int		ft_pthread_join(pthread_t th, void **value_ptr);
+int		ft_pthread_mutex_destroy(pthread_mutex_t *mutex);
+int		ft_pthread_mutex_lock(pthread_mutex_t *mutex);
+int		ft_pthread_mutex_unlock(pthread_mutex_t *mutex);
+
+//
 // util
 //
 void	error(char *str);
 long	ft_atol(char *str);
 void	*ft_calloc(size_t count, size_t size);
 bool	ft_isdigit(char c);
-int		ft_pthread_create(pthread_t *th, const pthread_attr_t *attr, \
-					  void *(*start_routine)(void *), void *arg);
-int		ft_pthread_join(pthread_t th, void **value_ptr);
-void	ft_pthread_mutex_destroy(pthread_mutex_t *mutex);
-int		ft_pthread_mutex_lock(pthread_mutex_t *mutex);
-int		ft_pthread_mutex_unlock(pthread_mutex_t *mutex);
 long	get_timestamp(void);
 bool	is_num(char *str);
 
