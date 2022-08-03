@@ -6,7 +6,7 @@
 /*   By: rnishimo <rnishimo@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 10:32:37 by rnishimo          #+#    #+#             */
-/*   Updated: 2022/08/03 10:36:09 by rnishimo         ###   ########.fr       */
+/*   Updated: 2022/08/03 10:47:44 by rnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ void	*monitor_routine(void *arg);
 
 // philo_routine.c
 void	*philo_routine(void *arg);
+
+// print.c
+bool	print_action(t_philo *philo, t_action_kind act_kind);
 
 // table.c
 t_table	*table_new(int argc, char **argv);
