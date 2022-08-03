@@ -12,7 +12,10 @@ function CHECK_DIED() {
   result=$?
 
   cat "log/${testcase}.txt" | tail -1 | grep died > /dev/null
-  result=$?
+  result1=$?
+  if [ "$result" = "0" ] && [ "$result1" != "0" ]; then
+    result=1
+  fi
 
   if [ "$result" = "0" ]; then
     echo -e "${GREEN}DIED:${NC} $1 $2 $3 $4 $5"
